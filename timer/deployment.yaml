@@ -1,0 +1,25 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timer-app-deploy
+  labels:
+    type: restapi
+spec:
+  selector: 
+    matchLabels:
+      app: timer-app
+  replicas: 1
+  template:
+    metadata:
+      name: timer-app-tmpl
+      labels:
+        app: timer-app
+    spec:
+      containers:
+        - name: timer-app
+          image: docker.io/library/timer-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000

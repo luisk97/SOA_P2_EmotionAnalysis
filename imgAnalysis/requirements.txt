@@ -1,0 +1,6 @@
+# requirements.txt
+
+flask_restful
+requests
+flask
+google.cloud.vision

@@ -1,0 +1,38 @@
+minikube start
+
+docker build -f Dockerfile -t file-writer-app .
+minikube image load file-writer-app:latest
+kubectl create --filename deployment.yaml
+kubectl expose deployment file-writer-app-deploy --type=NodePort --port=8000
+minikube service file-writer-app-deploy --url
+
+docker build -f Dockerfile -t analysis-app .
+minikube image load analysis-app:latest
+kubectl create --filename deployment.yaml
+kubectl expose deployment analysis-app-deploy --type=NodePort --port=7000
+minikube service analysis-app-deploy --url
+
+docker build -f Dockerfile -t file-reader-app .
+minikube image load file-reader-app:latest
+kubectl create --filename deployment.yaml
+kubectl expose deployment file-reader-app-deploy --type=NodePort --port=5000
+minikube service file-reader-app-deploy --url
+
+docker build -f Dockerfile -t timer-app .
+minikube image load timer-app:latest
+kubectl create --filename deployment.yaml
+
+
+
+
+docker run -p 5001:5000 timer-app
+docker run -p 5000:5000 -p 7001:7000 file-reader-app
+docker run -p 7000:7000 -p 5003:8000 analysis-app
+docker run -p 8000:8000 file-writer-app
+
+kubectl create --filename deployment.yaml
+//kubectl create --filename service.yaml
+
+kubectl exec -it file-writer-app-deploy-6c5fd4d96c-8r4gl -- bash
+
+kubectl delete -n default deployment img-analysis-app-deploy

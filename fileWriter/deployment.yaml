@@ -1,0 +1,25 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-writer-app-deploy
+  labels:
+    type: restapi
+spec:
+  selector: 
+    matchLabels:
+      app: file-writer-app
+  replicas: 1
+  template:
+    metadata:
+      name: file-writer-app-tmpl
+      labels:
+        app: file-writer-app
+    spec:
+      containers:
+        - name: file-writer-app
+          image: file-writer-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000

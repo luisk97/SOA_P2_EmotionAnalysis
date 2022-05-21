@@ -1,0 +1,26 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analysis-app-deploy
+  labels:
+    type: restapi
+spec:
+  selector: 
+    matchLabels:
+      app: analysis-app
+  replicas: 1
+  template:
+    metadata:
+      name: analysis-app-tmpl
+      labels:
+        app: analysis-app
+    spec:
+      containers:
+        - name: analysis-app
+          image: analysis-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+            - containerPort: 7000

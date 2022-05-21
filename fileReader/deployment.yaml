@@ -1,0 +1,28 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-reader-app-deploy
+  labels:
+    type: restapi
+spec:
+  selector: 
+    matchLabels:
+      tier: file-reader
+      app: file-reader-app
+  replicas: 1
+  template:
+    metadata:
+      name: file-reader-app-tmpl
+      labels:
+        tier: file-reader
+        app: file-reader-app
+    spec:
+      containers:
+        - name: file-reader-app
+          image: file-reader-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+            - containerPort: 7000
