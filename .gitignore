@@ -1,3 +1,5 @@
 # Ignorar archivos con información confidencial
-
 key.json
+
+# Ignorar archivo notas de trabajo
+cmd.txt
